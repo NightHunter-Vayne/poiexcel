@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@//192.168.2.221:1521/ORCL
+    username: BRDB_OCR_20200610
+    password: cnbi123
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+
+mybatis:
+  mapper-locations:
+    - classpath:mapper/*.xml
