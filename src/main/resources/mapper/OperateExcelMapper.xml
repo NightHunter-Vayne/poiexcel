@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org/DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.OperateExcelMapper">
+    <insert id="excelToTable">
+        insert into TESTEXCELTODATABASE_ZW (
+        proofnum,period,smoney,funrange,subjectmatch,expensetype,
+        costcenter,s_money,years,ispowerstation,businessunit,
+        simplifycostcenter,expense_type)
+
+        select proofnum,period,smoney,funrange,subjectmatch,expensetype,
+        costcenter,s_money,years,ispowerstation,businessunit,
+        simplifycostcenter,expense_type from(
+
+        <foreach collection="list" item="item" separator="union all">
+            select
+            <choose>
+                <when test="item.proofNum != null">#{item.proofNum} as proofnum</when>
+                <otherwise>'null' as proofnum</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.period != null">#{item.period} as period</when>
+                <otherwise>'null' as period</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.smoney != null">#{item.smoney} as smoney</when>
+                <otherwise>'0' as smoney</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.funRange != null">#{item.funRange} as funrange</when>
+                <otherwise>'null' as funrange</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.subjectMatch != null">#{item.subjectMatch} as subjectmatch</when>
+                <otherwise>'null' as subjectmatch</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.expenseType != null">#{item.expenseType} as expensetype</when>
+                <otherwise>'null' as expensetype</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.costCenter != null">#{item.costCenter} as costcenter</when>
+                <otherwise>'null' as costcenter</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.sumMoney != null">#{item.sumMoney} as s_money</when>
+                <otherwise>'0' as s_money</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.years">#{item.years} as years</when>
+                <otherwise>'null' as years</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.isPowerStation">#{item.isPowerStation} as ispowerstation</when>
+                <otherwise>'null' as ispowerstation</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.businessUnit != null">#{item.businessUnit} as businessunit</when>
+                <otherwise>'null' as businessunit</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.simplifyCostCenter">#{item.simplifyCostCenter} as simplifycostcenter</when>
+                <otherwise>'null' as simplifycostcenter</otherwise>
+            </choose>,
+            <choose>
+                <when test="item.outlayType != null">#{item.outlayType} as expense_type</when>
+                <otherwise>'null' as expense_type</otherwise>
+            </choose>
+            from dual
+        </foreach>
+        )
+    </insert>
+
+    <select id="tableToExcel" resultType="java.util.Map">
+        select PROOFNUM as "proofNum",PERIOD as "period",SMONEY as "smoney",FUNRANGE as "funRange",SUBJECTMATCH as "subjectMatch",
+        EXPENSETYPE as "expenseType",COSTCENTER as "costCenter",S_MONEY as "sumMoney",YEARS as "years",ISPOWERSTATION as "isPowerStation",
+        BUSINESSUNIT as "businessUnit",SIMPLIFYCOSTCENTER as "simplifyCostCenter",EXPENSE_TYPE as "outlayType" from TESTEXCELTODATABASE_ZW
+    </select>
+</mapper>
