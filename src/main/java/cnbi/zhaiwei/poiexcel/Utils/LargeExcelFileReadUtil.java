@@ -3,10 +3,12 @@ package cnbi.zhaiwei.poiexcel.Utils;
 import java.io.InputStream;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.model.SharedStringsTable;
+import org.junit.Test;
 import org.springframework.stereotype.Component;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -108,26 +110,29 @@ public class LargeExcelFileReadUtil  {
      * See org.xml.sax.helpers.DefaultHandler javadocs
      */
     //测试
-//    @Test
-//    public  void test ()throws Exception {
-//        Long time=System.currentTimeMillis();
-//        LargeExcelFileReadUtil example = new LargeExcelFileReadUtil();
-//
-//        example.processOneSheet("D:\\Documents\\work\\费用明细测试.xlsx");
-//        Long endtime=System.currentTimeMillis();
-//        LinkedHashMap<String, String> map = example.getRowContents();
-//        Iterator<Entry<String, String>> it= map.entrySet().iterator();
-//        int count=0;
-//        String prePos="";
-//        while (it.hasNext()){
-//            Map.Entry<String, String> entry=(Map.Entry<String, String>)it.next();
-//            String pos=entry.getKey();
-//            if(!pos.substring(1).equals(prePos)){
-//                prePos=pos.substring(1);
-//                count++;
-//            }
-//            System.out.println(pos+":"+entry.getValue());
-//        }
-//        System.out.println("解析数据"+count+"条;耗时"+(endtime-time)/1000+"秒");
-//    }
+    @Test
+    public  void test ()throws Exception {
+        Long time=System.currentTimeMillis();
+        LargeExcelFileReadUtil example = new LargeExcelFileReadUtil();
+
+        example.processOneSheet("D:\\Documents\\work\\费用明细测试.xlsx");
+
+        Long endtime=System.currentTimeMillis();
+        LinkedHashMap<String, String> map = example.getRowContents();
+        Iterator<Map.Entry<String, String>> it= map.entrySet().iterator();
+        int count=0;
+        String prePos="";
+
+        while (it.hasNext()){
+            Map.Entry<String, String> entry=(Map.Entry<String, String>)it.next();
+            String pos=entry.getKey();
+            if(!pos.substring(1).equals(prePos)){
+                prePos=pos.substring(1);
+                count++;
+            }
+            System.out.println(pos+":"+entry.getValue());
+        }
+
+        System.out.println("解析数据"+count+"条;耗时"+(endtime-time)/1000+"秒");
+    }
 }
