@@ -43,7 +43,7 @@ public class ExcelTroubleUtils {
     }
 
     /**
-     * 去除掉科学计数法
+     * 去除掉科学计数法中的E
      * @param currEntry
      * @return
      */

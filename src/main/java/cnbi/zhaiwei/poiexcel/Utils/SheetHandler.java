@@ -12,12 +12,23 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class SheetHandler extends DefaultHandler{
-
+    /**
+     * SharedStrings:在Excel文件底层专门存储每个单元格中值的XML文件
+     */
     private SharedStringsTable sst;
+    /**
+     * lastContents:上一个单元格的值
+     */
     private String lastContents;
+    /**
+     * 下个单元格的值是否为String类型
+     */
     private boolean nextIsString;
+    /**
+     * 单元格的坐标，比如 A1
+     */
     private String  cellPosition;
-    private  LinkedHashMap<String, String>rowContents=new LinkedHashMap();
+    private LinkedHashMap<String, String> rowContents = new LinkedHashMap();
 
     public LinkedHashMap<String, String> getRowContents() {
         return rowContents;
@@ -43,7 +54,7 @@ public class SheetHandler extends DefaultHandler{
                 nextIsString = false;
             }
         }
-        // 清楚缓存内容
+        // 清除缓存内容
         lastContents = "";
     }
 

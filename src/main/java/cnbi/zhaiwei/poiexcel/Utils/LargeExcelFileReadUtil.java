@@ -48,7 +48,9 @@ public class LargeExcelFileReadUtil  {
         try {
             pkg = OPCPackage.open(filename);
             XSSFReader r = new XSSFReader(pkg);
+            //SharedStrings是用来在Excel文件底层专门存储每个单元格中值的XML文件
             SharedStringsTable sst = r.getSharedStringsTable();
+            //获取XMLReader类型的解析器
             XMLReader parser = fetchSheetParser(sst);
             sheet2 = r.getSheet("rId1");
             InputSource sheetSource = new InputSource(sheet2);
@@ -95,6 +97,7 @@ public class LargeExcelFileReadUtil  {
         }
     }
 
+    //获取XMLReader类型的解析器(parser)
     public XMLReader fetchSheetParser(SharedStringsTable sst) throws SAXException {
         XMLReader parser =
                 XMLReaderFactory.createXMLReader(

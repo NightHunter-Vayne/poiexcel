@@ -18,7 +18,7 @@ public final class ExcelUtils {
      * @param originalMap 原来的map集合
      * @return 转换后的List<List>集合
      */
-    public static List<LinkedHashMap> mapTransform2List(LinkedHashMap<String, String> originalMap, Integer batchCount){
+    public static List<LinkedHashMap> mapTransform2List(LinkedHashMap<String, String> originalMap, Integer batchCount, Integer colNum){
         if(CollectionUtils.isEmpty(originalMap)){
             return null;
         }
@@ -27,7 +27,6 @@ public final class ExcelUtils {
                 "s_Money","years","isPowerStation","businessUnit","simplifyCostCenter","expense_Type"};
         Iterator<Map.Entry<String, String>> iterator = originalMap.entrySet().iterator();
 
-        final int colNum = 13;
         List<LinkedHashMap> outerList = new ArrayList(batchCount);
 
         String preRowIndex = "";
@@ -57,26 +56,25 @@ public final class ExcelUtils {
     }
 
     //获取原Excel的列数
-    private static int getColCount(LinkedHashMap<String, String> originalMap){
-        Iterator<Map.Entry<String, String>> iterator = originalMap.entrySet().iterator();
-        List<Character> colList = new ArrayList();
-
-        while(iterator.hasNext()){
-            char col = iterator.next().getKey().charAt(0);
-            if(!colList.contains(col)){
-                colList.add(col);
-            }else{
-                break;
-            }
-        }
-
-        return colList.size();
-    }
+//    private static int getColCount(LinkedHashMap<String, String> originalMap){
+//        Iterator<Map.Entry<String, String>> iterator = originalMap.entrySet().iterator();
+//        List<Character> colList = new ArrayList();
+//
+//        while(iterator.hasNext()){
+//            char col = iterator.next().getKey().charAt(0);
+//            if(!colList.contains(col)){
+//                colList.add(col);
+//            }else{
+//                break;
+//            }
+//        }
+//
+//        return colList.size();
+//    }
 
     //获取原Excel的行数
-    public static int getrowCount(LinkedHashMap<String, String> originalMap){
-        int colCount = getColCount(originalMap);
-        int rowCount = originalMap.size()/colCount;
+    public static int getrowCount(int colNum, LinkedHashMap<String, String> originalMap){
+        int rowCount = originalMap.size()/colNum;
         return rowCount;
     }
 
@@ -85,30 +83,10 @@ public final class ExcelUtils {
         LargeExcelFileReadUtil example = new LargeExcelFileReadUtil();
         example.processOneSheet("D:\\Documents\\work\\费用明细测试.xlsx");
         LinkedHashMap<String, String> map = example.getRowContents();
-        List<LinkedHashMap> list = mapTransform2List(map, 3000);
+        List<LinkedHashMap> list = mapTransform2List(map, 3000, 13);
         int count = 0;
         for (LinkedHashMap linkedHashMap : list) {
             System.out.println(linkedHashMap.get("s_Money"));
         }
-
-
-//        TreeMap<Integer,Integer> map = new TreeMap((o1,o2)->{
-//                Integer i1=(Integer)o1;
-//                Integer i2=(Integer)o2;
-//                return -i1.compareTo(i2);
-//            }
-//        );
-//
-//        map.put(1, 1);
-//        map.put(2, 2);
-//        map.put(3, 3);
-//
-//        Set<Integer> keys = map.keySet();
-//        Iterator<Integer> iter = keys.iterator();
-//        while(iter.hasNext())
-//        {
-//            Integer key = iter.next();
-//            System.out.println(" "+key+":"+map.get(key));
-//        }
     }
 }

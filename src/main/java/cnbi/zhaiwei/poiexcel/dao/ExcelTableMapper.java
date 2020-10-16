@@ -12,4 +12,6 @@ import java.util.List;
 @Mapper
 public interface ExcelTableMapper {
     void insertData2Table(@Param("list") List<LinkedHashMap> recordList);
+
+    List<LinkedHashMap> queryDatasFromTable(@Param("tabName") String tableName);
 }
